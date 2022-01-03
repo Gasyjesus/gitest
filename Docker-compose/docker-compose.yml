@@ -5,23 +5,23 @@ version: '3.1'
 services:
   ## mariadb database configuration
   db:
-	### name and version
+    ### name and version
     image: mariadb:latest
     restart: always
-	### definition of database name, user and passwords
+    ### definition of database name, user and passwords
     environment:
       MARIADB_ROOT_PASSWORD: password
       MARIADB_DATABASE: dbmovie
       MARIADB_USER: movie
       MARIADB_PASSWORD: password
-	### path of the volume used
+    ### path of the volume used
     volumes: 
       - vmariadbmovie:/var/lib/mysql
       - ./db_scripts:/docker-entrypoint-initdb.d
 
   ## phpmyadmin config
   phpmyadmin:
-	### name and version
+    ### name and version
     image: phpmyadmin:latest
     restart: always
     ports:
@@ -31,8 +31,8 @@ services:
   api:
     build:
       context:
-	### arguments defined with variables
-	### variables defined in file: /docker-scripts/javaapp-truedb/.env
+    ### arguments defined with variables
+    ### variables defined in file: /docker-scripts/javaapp-truedb/.env
       args:
         repodir: ${repodir}
         artifact: ${artifact}
