@@ -1,0 +1,30 @@
+---
+
+# Check if openjdk-11-jre is istalled, install it if not present
+- name: JRE Open JDK
+  apt:
+    name: openjdk-11-jre
+    state: present
+  become: yes
+
+# Create a directory with the correct parameters (ownner, group, rights) in order to manage the application file
+- name: Create Directory
+  file:
+    path: "{{ appli_dir }}"
+    state: directory
+    owner: "{{ owner_user }}"
+    group: "{{ owner_group }}"
+    mode: 0700
+  become: yes
+
+# Move the application in the previously created directory
+- name: Copy artifact
+  copy:
+    src: movieapi.jar
+    dest: "{{ appli_dir }}"
+
+# Move the file that contains all the application properties such as the type on the database (mysql, mariadb, postgresql, mssql), the ports, 
+- name: Copy conf api
+  template:
+    src: application.properties.j2
+    dest: "{{ appli_dir }}/application.properties"
